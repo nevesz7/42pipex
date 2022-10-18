@@ -33,7 +33,7 @@
 typedef struct s_list_gnl {
 	char				*str;
 	struct s_list_gnl	*next;
-}	t_list_gnornl;
+}	t_list_gnl;
 
 typedef struct s_list
 {
