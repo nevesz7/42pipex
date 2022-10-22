@@ -5,6 +5,9 @@ SOURCES_DIR		= ./sources/
 
 HEADERS_LIST	= pipex.h
 SOURCES_LIST	= pipex.c \
+				read.c \
+				free.c \
+				check.c
 
 HEADERS			= ${addprefix ${HEADERS_DIR}, ${HEADERS_LIST}}
 SOURCES			= ${addprefix ${SOURCES_DIR}, ${SOURCES_LIST}}
