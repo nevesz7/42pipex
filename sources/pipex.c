@@ -1,20 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
+/*   Updated: 2022/10/25 04:27:54 by rarobert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	**path;
-	char	***cmds;
-	size_t	i;
+	t_pipex	pip;
 
-	if (argc != 5)
-		return (error_msg(1));
-	cmds = get_cmds(argv);
-	path = get_path(envp);
-	i = -1;
-	while (path[++i])
-		ft_printf("[%s]\n", path[i]);
-	print_3d(cmds);
+	check_arguments(argc, argv, envp, &pip);
+	pipe(pip.pipe);
+	pipe_it(&pip, argc);
+	free_pipe(&pip);
 	return (0);
+}
+
+void	pipe_it(t_pipex *pip, int argc)
+{
+	int	i;
+
+	i = -1;
+	if (pip->fd_in < 0)
+		i++;
+	while (++i < argc - 4)
+	{
+		get_cmd(pip->path, i, pip);
+		if (pip->cmds[i][0][0] != 0)
+			run_cmd(pip->cmds[i], i, *pip);
+		else
+			write(pip->pipe[1], "", 0);
+	}
+	get_cmd(pip->path, i, pip);
+	dup2(pip->pipe[0], STDIN_FILENO);
+	dup2(pip->fd_out, STDOUT_FILENO);
+	close(pip->pipe[0]);
+	close(pip->pipe[1]);
+	execve(pip->cmds[i][0], pip->cmds[i], NULL);
+}
+
+void	get_cmd(char **path, size_t i, t_pipex *pip)
+{
+	size_t	j;
+
+	if (pip->cmd[0])
+		free(pip->cmd);
+	pip->cmd = ft_strdup(pip->cmds[i][0]);
+	free(pip->cmds[i][0]);
+	j = 0;
+	while (path[++j])
+	{
+		pip->cmds[i][0] = ft_strjoin(path[j], "/");
+		pip->cmds[i][0] = ft_strjoin_free(pip->cmds[i][0], pip->cmd);
+		if (access(pip->cmds[i][0], 0) == 0)
+			return ;
+		free(pip->cmds[i][0]);
+	}
+	pip->cmds[i][0] = ft_strdup("");
+	cmd_error(pip->cmd);
+	return ;
+}
+
+void	run_cmd(char **cmd, int i, t_pipex pip)
+{
+	pid_t	child;
+
+	child = fork();
+	if (child == 0)
+	{
+		if (i == 0)
+			dup2(pip.fd_in, STDIN_FILENO);
+		dup2(pip.pipe[1], STDOUT_FILENO);
+		close(pip.pipe[0]);
+		close(pip.pipe[1]);
+		execve(cmd[0], cmd, NULL);
+	}
+	wait(NULL);
 }
 
 void	print_3d(char ***arr)
@@ -33,11 +101,4 @@ void	print_3d(char ***arr)
 		}
 		i++;
 	}
-}
-
-int	error_msg(int code)
-{
-	if (code == 1)
-		ft_printf("Input needs to be 5 arguments.");
-	return (0);
 }
