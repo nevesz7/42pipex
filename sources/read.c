@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:32 by rarobert          #+#    #+#             */
-/*   Updated: 2022/10/25 03:29:04 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:27:12 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	***get_cmds(char *argv[])
 	i = 0;
 	while (i < 2)
 	{
-		cmds[i] = ft_split(argv[i + 2], ' ');
+		cmds[i] = pip_split(argv[i + 2], ' ');
 		i++;
 	}
 	cmds[i] = NULL;

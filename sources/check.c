@@ -38,6 +38,7 @@ void	check_arguments(int argc, char *argv[], char *envp[], t_pipex *pip)
 	}
 	pip->cmds = get_cmds(argv);
 	pip->path = get_path(envp);
+	pip->exit_code = 0;
 }
 
 void	cmd_error(char	*cmd)

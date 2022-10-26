@@ -7,7 +7,7 @@ HEADERS_LIST	= pipex.h
 SOURCES_LIST	= pipex.c \
 				read.c \
 				free.c \
-				utils.c \
+				split.c \
 				check.c
 
 HEADERS			= ${addprefix ${HEADERS_DIR}, ${HEADERS_LIST}}

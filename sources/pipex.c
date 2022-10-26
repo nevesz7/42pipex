@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
-/*   Updated: 2022/10/25 04:27:54 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/10/25 10:41:05 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char *argv[], char *envp[])
 	pipe(pip.pipe);
 	pipe_it(&pip, argc);
 	free_pipe(&pip);
+	exit(pip.exit_code);
 	return (0);
 }
 
@@ -43,7 +44,9 @@ void	pipe_it(t_pipex *pip, int argc)
 	dup2(pip->fd_out, STDOUT_FILENO);
 	close(pip->pipe[0]);
 	close(pip->pipe[1]);
-	execve(pip->cmds[i][0], pip->cmds[i], NULL);
+	if (pip->cmds[i][0][0])
+		execve(pip->cmds[i][0], pip->cmds[i], NULL);
+	wait(&pip->child);
 }
 
 void	get_cmd(char **path, size_t i, t_pipex *pip)
@@ -65,15 +68,14 @@ void	get_cmd(char **path, size_t i, t_pipex *pip)
 	}
 	pip->cmds[i][0] = ft_strdup("");
 	cmd_error(pip->cmd);
+	pip->exit_code = 127;
 	return ;
 }
 
 void	run_cmd(char **cmd, int i, t_pipex pip)
 {
-	pid_t	child;
-
-	child = fork();
-	if (child == 0)
+	pip.child = fork();
+	if (pip.child == 0)
 	{
 		if (i == 0)
 			dup2(pip.fd_in, STDIN_FILENO);
@@ -82,7 +84,6 @@ void	run_cmd(char **cmd, int i, t_pipex pip)
 		close(pip.pipe[1]);
 		execve(cmd[0], cmd, NULL);
 	}
-	wait(NULL);
 }
 
 void	print_3d(char ***arr)
