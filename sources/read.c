@@ -6,20 +6,22 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:32 by rarobert          #+#    #+#             */
-/*   Updated: 2022/10/26 20:27:12 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/10/29 03:55:00 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	***get_cmds(char *argv[])
+char	***get_cmds(char *argv[], int argc)
 {
-	size_t	i;
+	int		i;
+	int		n;
 	char	***cmds;
 
-	cmds = (char ***)malloc(3 * sizeof(char **));
+	n = argc - 3;
+	cmds = (char ***)malloc((n + 1) * sizeof(char **));
 	i = 0;
-	while (i < 2)
+	while (i < n)
 	{
 		cmds[i] = pip_split(argv[i + 2], ' ');
 		i++;

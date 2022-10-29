@@ -23,12 +23,11 @@ LIBFT_DIR		= ./libft/
 LIBFT_HEADERS	= ${LIBFT_DIR}includes/
 
 CC				= cc
-CFLAGS			= -Wall -Werror -Wextra
+CFLAGS			= -Wall -Werror -Wextra 
 
 RM 				= rm -f
 
 all:			${NAME}
-				@clear 
 				@echo Everything went well!
 
 libft:			${LIBFT}

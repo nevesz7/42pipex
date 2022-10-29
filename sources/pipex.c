@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
-/*   Updated: 2022/10/25 10:41:05 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/10/29 21:00:45 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	check_arguments(argc, argv, envp, &pip);
 	pipe(pip.pipe);
+	pip.cmd = ft_strdup("");
 	pipe_it(&pip, argc);
 	free_pipe(&pip);
 	exit(pip.exit_code);

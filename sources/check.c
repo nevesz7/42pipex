@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:22 by rarobert          #+#    #+#             */
-/*   Updated: 2022/10/25 04:12:10 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/10/29 20:59:37 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	check_arguments(int argc, char *argv[], char *envp[], t_pipex *pip)
 		write(1, "bash: ", 6);
 		perror(argv[1]);
 	}
-	pip->cmds = get_cmds(argv);
+	pip->cmds = get_cmds(argv, argc);
 	pip->path = get_path(envp);
 	pip->exit_code = 0;
 }
