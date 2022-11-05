@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:27 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/01 17:20:50 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:41:38 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_free3d(char ***arr)
 
 void	free_pipe(t_pipex	*pip)
 {
+	wait(&pip->child);
 	ft_free3d(pip->cmds);
 	ft_free_array(pip->path, (void *)pip->path);
 	free(pip->cmd);

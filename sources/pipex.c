@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/01 23:30:21 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:42:12 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void	get_cmd(char **path, size_t i, t_pipex *pip)
 {
 	size_t	j;
 
-	if (pip->cmd[0])
-		free(pip->cmd);
+	free(pip->cmd);
 	pip->cmd = ft_strdup(pip->cmds[i][0]);
 	free(pip->cmds[i][0]);
 	j = 0;

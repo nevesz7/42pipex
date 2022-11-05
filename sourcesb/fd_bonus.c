@@ -50,7 +50,7 @@ void	manage_fds(size_t i, t_pipex *pip)
 			pip->fd_w1 = open("temp_file1", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
 	}
-	else 
+	else
 	{
 		pip->fd_r1 = open("temp_file1", O_RDONLY);
 		if (i != pip->max)
