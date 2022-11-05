@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   check_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 02:08:22 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/05 00:06:08 by rarobert         ###   ########.fr       */
+/*   Created: 2022/11/01 17:01:43 by rarobert          #+#    #+#             */
+/*   Updated: 2022/11/04 23:42:39 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	check_arguments(int argc, char *argv[], char *envp[], t_pipex *pip)
 {
-	if (argc != 5)
+	if (argc < 5)
 	{
-		if (argc < 5)
-			ft_printf("Not enough parameters\n");
-		else
-			ft_printf("Too many parameters\n");
-		ft_printf("Use: ./pipex infile cmd1 cmd2 outfile\n");
+		ft_printf("Not enough parameters\n");
+		ft_printf("Use: ./pipex infile cmd1 cmd2 ... cmdn outfile\n");
 		exit(0);
 	}
 	pip->fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -38,6 +35,7 @@ void	check_arguments(int argc, char *argv[], char *envp[], t_pipex *pip)
 	}
 	pip->cmds = get_cmds(argv, argc);
 	pip->path = get_path(envp);
+	pip->max = argc - 3;
 	pip->exit_code = 0;
 }
 

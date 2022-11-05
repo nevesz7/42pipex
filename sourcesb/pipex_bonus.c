@@ -1,61 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/01 23:30:21 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/05 02:30:59 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	pip;
 
 	check_arguments(argc, argv, envp, &pip);
-	pipe(pip.pipe);
 	pip.cmd = ft_strdup("");
-	pipe_it(&pip, argc);
+	pipe_it(&pip);
 	free_pipe(&pip);
 	exit(pip.exit_code);
 	return (0);
 }
 
-void	pipe_it(t_pipex *pip, int argc)
+void	pipe_it(t_pipex *pip)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
-	if (pip->fd_in < 0)
-		i++;
-	while (++i < argc - 4)
+	while (++i < pip->max)
 	{
 		get_cmd(pip->path, i, pip);
-		if (pip->cmds[i][0][0] != 0)
-			run_cmd(pip->cmds[i], i, *pip);
-		else
-			write(pip->pipe[1], "", 0);
+		manage_fds(i, pip);
+		run_cmd(pip->cmds[i], *pip);
 	}
-	get_cmd(pip->path, i, pip);
-	dup2(pip->pipe[0], STDIN_FILENO);
-	dup2(pip->fd_out, STDOUT_FILENO);
-	close(pip->pipe[0]);
-	close(pip->pipe[1]);
-	if (pip->cmds[i][0][0])
-		execve(pip->cmds[i][0], pip->cmds[i], NULL);
-	wait(&pip->child);
 }
 
 void	get_cmd(char **path, size_t i, t_pipex *pip)
 {
 	size_t	j;
 
-	if (pip->cmd[0])
-		free(pip->cmd);
+	free(pip->cmd);
 	pip->cmd = ft_strdup(pip->cmds[i][0]);
 	free(pip->cmds[i][0]);
 	j = 0;
@@ -73,18 +59,11 @@ void	get_cmd(char **path, size_t i, t_pipex *pip)
 	return ;
 }
 
-void	run_cmd(char **cmd, int i, t_pipex pip)
+void	run_cmd(char **cmd, t_pipex pip)
 {
-	pip.child = fork();
-	if (pip.child == 0)
-	{
-		if (i == 0)
-			dup2(pip.fd_in, STDIN_FILENO);
-		dup2(pip.pipe[1], STDOUT_FILENO);
-		close(pip.pipe[0]);
-		close(pip.pipe[1]);
+	pip.childs = fork();
+	if (pip.childs == 0)
 		execve(cmd[0], cmd, NULL);
-	}
 }
 
 void	print_3d(char ***arr)

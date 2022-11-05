@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 02:08:27 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/01 17:20:50 by rarobert         ###   ########.fr       */
+/*   Created: 2022/11/01 17:07:21 by rarobert          #+#    #+#             */
+/*   Updated: 2022/11/05 02:32:13 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_free3d(char ***arr)
 {
@@ -30,8 +30,14 @@ void	free_pipe(t_pipex	*pip)
 	ft_free3d(pip->cmds);
 	ft_free_array(pip->path, (void *)pip->path);
 	free(pip->cmd);
-	close(pip->pipe[0]);
-	close(pip->pipe[1]);
 	close(pip->fd_in);
 	close(pip->fd_out);
+	if (pip->max % 2 == 0)
+		close(pip->fd_r1);
+	else
+		close(pip->fd_r2);
+	close(pip->fd_w1);
+	close(pip->fd_w2);
+	unlink("temp_file1");
+	unlink("temp_file2");
 }
