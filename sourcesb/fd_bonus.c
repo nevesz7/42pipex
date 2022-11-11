@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:44:53 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/05 02:23:41 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/11 08:44:47 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ void	manage_fds(size_t i, t_pipex *pip)
 	if (i % 2 == 0)
 	{
 		if (i)
-			pip->fd_r2 = open("temp_file2", O_RDONLY);
+			pip->fd_r2 = open("../temp_file2", O_RDONLY);
 		if (i != pip->max)
 		{
-			unlink("temp_file1");
-			pip->fd_w1 = open("temp_file1", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			unlink("../temp_file1");
+			pip->fd_w1 = open("../temp_file1", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
 	}
 	else
 	{
-		pip->fd_r1 = open("temp_file1", O_RDONLY);
+		pip->fd_r1 = open("../temp_file1", O_RDONLY);
 		if (i != pip->max)
 		{
-			unlink("temp_file2");
-			pip->fd_w2 = open("temp_file2", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			unlink("../temp_file2");
+			pip->fd_w2 = open("../temp_file2", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
 	}
 	define_fds(i, pip);

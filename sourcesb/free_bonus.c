@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:07:21 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/05 02:32:13 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/11 08:44:57 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ void	free_pipe(t_pipex	*pip)
 		close(pip->fd_r2);
 	close(pip->fd_w1);
 	close(pip->fd_w2);
-	unlink("temp_file1");
-	unlink("temp_file2");
+	unlink("../temp_file1");
+	unlink("../temp_file2");
 }

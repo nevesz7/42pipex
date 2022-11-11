@@ -29,11 +29,16 @@ void	pipe_it(t_pipex *pip)
 	size_t	i;
 
 	i = -1;
+	if (pip->fd_in < 0)
+		i++;
 	while (++i < pip->max)
 	{
 		get_cmd(pip->path, i, pip);
 		manage_fds(i, pip);
-		run_cmd(pip->cmds[i], *pip);
+		if (i % 2 == 0)
+			run_cmd_1(pip->cmds[i], *pip);
+		else
+			run_cmd_2(pip->cmds[i], *pip);
 	}
 }
 
@@ -59,10 +64,19 @@ void	get_cmd(char **path, size_t i, t_pipex *pip)
 	return ;
 }
 
-void	run_cmd(char **cmd, t_pipex pip)
+void	run_cmd_1(char **cmd, t_pipex pip)
 {
-	pip.childs = fork();
-	if (pip.childs == 0)
+	wait(&pip.child2);
+	pip.child1 = fork();
+	if (pip.child1 == 0)
+		execve(cmd[0], cmd, NULL);
+}
+
+void	run_cmd_2(char **cmd, t_pipex pip)
+{
+	wait(&pip.child1);
+	pip.child2 = fork();
+	if (pip.child2 == 0)
 		execve(cmd[0], cmd, NULL);
 }
 
