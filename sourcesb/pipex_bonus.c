@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/05 02:30:59 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:25:26 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,4 @@ void	run_cmd_2(char **cmd, t_pipex pip)
 	pip.child2 = fork();
 	if (pip.child2 == 0)
 		execve(cmd[0], cmd, NULL);
-}
-
-void	print_3d(char ***arr)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (arr[i])
-	{
-		j = 0;
-		while (arr[i][j])
-		{
-			ft_printf("arr[%d][%d] = %s\n", i, j, arr[i][j]);
-			j++;
-		}
-		i++;
-	}
 }

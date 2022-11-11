@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:44:53 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/11 08:44:47 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:25:05 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	manage_fds(size_t i, t_pipex *pip)
 		if (i != pip->max)
 		{
 			unlink("../temp_file1");
-			pip->fd_w1 = open("../temp_file1", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			pip->fd_w1 = open("../temp_file1",
+					O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
 	}
 	else
@@ -56,7 +57,8 @@ void	manage_fds(size_t i, t_pipex *pip)
 		if (i != pip->max)
 		{
 			unlink("../temp_file2");
-			pip->fd_w2 = open("../temp_file2", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			pip->fd_w2 = open("../temp_file2",
+					O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
 	}
 	define_fds(i, pip);

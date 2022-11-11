@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:01:43 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/11 08:45:03 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:25:37 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ void	check_arguments(int argc, char *argv[], char *envp[], t_pipex *pip)
 	pip->exit_code = 0;
 	pip->fd_w1 = open("../temp_file1", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	pip->fd_w2 = open("../temp_file2", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+}
+
+void	print_3d(char ***arr)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (arr[i])
+	{
+		j = 0;
+		while (arr[i][j])
+		{
+			ft_printf("arr[%d][%d] = %s\n", i, j, arr[i][j]);
+			j++;
+		}
+		i++;
+	}
 }
 
 void	cmd_error(char	*cmd)
