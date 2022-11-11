@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:29 by rarobert          #+#    #+#             */
-/*   Updated: 2022/11/11 08:47:57 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:50:19 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ void	pipe_it(t_pipex *pip, int argc)
 	get_cmd(pip->path, i, pip);
 	dup2(pip->pipe[0], STDIN_FILENO);
 	dup2(pip->fd_out, STDOUT_FILENO);
-	close(pip->pipe[0]);
 	close(pip->pipe[1]);
 	if (pip->cmds[i][0][0])
-		execve(pip->cmds[i][0], pip->cmds[i], NULL);
+		run_cmd(pip->cmds[i], i, *pip);
 	wait(&pip->child);
 }
 
