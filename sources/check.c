@@ -6,7 +6,7 @@
 /*   By: rarobert <rarobert@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:08:22 by rarobert          #+#    #+#             */
-/*   Updated: 2022/10/29 20:59:37 by rarobert         ###   ########.fr       */
+/*   Updated: 2022/12/20 23:20:20 by rarobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@ void	check_arguments(int argc, char *argv[], char *envp[], t_pipex *pip)
 		ft_printf("Use: ./pipex infile cmd1 cmd2 outfile\n");
 		exit(0);
 	}
+	pip->fd_in = open(argv[1], O_RDONLY);
+	if (pip->fd_in < 0)
+	{
+		close(pip->fd_in);
+		write(1, "bash: ", 6);
+		perror(argv[1]);
+	}
 	pip->fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pip->fd_out < 0)
 	{
 		write(1, "bash: ", 6);
 		perror(argv[argc - 1]);
 		exit(EXIT_FAILURE);
-	}
-	pip->fd_in = open(argv[1], O_RDONLY);
-	if (pip->fd_in < 0)
-	{
-		write(1, "bash: ", 6);
-		perror(argv[1]);
 	}
 	pip->cmds = get_cmds(argv, argc);
 	pip->path = get_path(envp);
